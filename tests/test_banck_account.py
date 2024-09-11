@@ -1,5 +1,5 @@
 import unittest
-from src.bank_account import BankAccount,WithdrawalTimeRestrictionError
+from src.bank_account import BankAccount,WithdrawalTimeRestrictionError,WithdrawalDayRestrictionError
 from unittest.mock import patch
 import os
 
@@ -56,5 +56,20 @@ class BankAccount_test(unittest.TestCase):
         mock_datetime.now.return_value.hour = 7
         with self.assertRaises(WithdrawalTimeRestrictionError):
             self.account.withdraw(100)
+    
+    @patch("src.bank_account.datetime")
+    def test_Withdrawal_DayRestriction(self, mock_datetime):
+        mock_datetime.now.return_value.weekday.return_value = 0
+        mock_datetime.now.return_value.hour = 9
+        new_balance = self.account.withdraw(100)
+        self.assertEqual(new_balance, 900)
+    
+
+    @patch("src.bank_account.datetime")
+    def test_Withdrawal_DayRestriction_raises(self, mock_datetime):
+        mock_datetime.now.return_value.weekday.return_value = 6
+        with self.assertRaises(WithdrawalDayRestrictionError):
+            self.account.withdraw(100)
+
 
 

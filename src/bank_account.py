@@ -25,12 +25,16 @@ class BankAccount:
     def withdraw(self, amount):
         now = datetime.now()
         today = now.weekday()
-        print(today)
-        if now.hour < 8 or now.hour > 17:
-            raise WithdrawalTimeRestrictionError("Time not allo it")
-        if amount > 0:
-            self.balance -= amount
-            self._log_transaction(f'Withdraw {amount}. New balance: {self.balance}')
+        days_not_allows = [5,6]
+        if today in days_not_allows:
+            raise WithdrawalDayRestrictionError("Saturday and Sunday withdraw is not allow it")
+        else:
+            if now.hour < 8 or now.hour > 17:
+                raise WithdrawalTimeRestrictionError("Time not allo it")
+            else:
+                if amount > 0:
+                    self.balance -= amount
+                    self._log_transaction(f'Withdraw {amount}. New balance: {self.balance}')
         return self.balance
     
     def get_balance(self):
@@ -63,7 +67,12 @@ class WithdrawalTimeRestrictionError(Exception):
         self.mensaje = mensaje
         super().__init__(self.mensaje)
 
+class WithdrawalDayRestrictionError(Exception):
+    def __init__(self, mensaje):
+        self.mensaje = mensaje
+        super().__init__(self.mensaje)
 
-#withdrawal = BankAccount()
 
-#withdrawal.withdraw(100)
+withdrawal = BankAccount()
+
+withdrawal.withdraw(100)
