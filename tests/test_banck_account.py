@@ -63,13 +63,26 @@ class BankAccount_test(unittest.TestCase):
         mock_datetime.now.return_value.hour = 9
         new_balance = self.account.withdraw(100)
         self.assertEqual(new_balance, 900)
-    
 
     @patch("src.bank_account.datetime")
     def test_Withdrawal_DayRestriction_raises(self, mock_datetime):
         mock_datetime.now.return_value.weekday.return_value = 6
         with self.assertRaises(WithdrawalDayRestrictionError):
             self.account.withdraw(100)
+
+    def test_deposit_various_amounts(self):
+        test_cases = [
+            {"amount": 100, "expected": 1100},
+            {"amount": 3000, "expected": 4000},
+            {"amount": 4500, "expected": 5500},
+        ]
+        for case in test_cases:
+            with self.subTest(case=case):
+                account = BankAccount(1000, log_file="transaction_log.txt")
+                new_balance = account.deposit(case["amount"])
+                self.assertEqual(new_balance, case["expected"])
+
+        
 
 
 
