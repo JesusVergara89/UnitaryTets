@@ -5,10 +5,13 @@ def get_location(ip):
     response = requests.get(url)
     response.raise_for_status()
     data = response.json()
+    #print(data)
     return {
         "country": data["countryName"],
         "region": data["regionName"],
         "city": data["cityName"],
+        "code": data["countryCode"],
+        "language": data["language"]
     }
 
 if __name__=="__main__":

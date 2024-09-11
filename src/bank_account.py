@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class BankAccount:
     def __init__(self, balance=0, log_file=None):
         self.balance = balance
@@ -21,6 +23,11 @@ class BankAccount:
         return self.balance
     
     def withdraw(self, amount):
+        now = datetime.now()
+        today = now.weekday()
+        print(today)
+        if now.hour < 8 or now.hour > 17:
+            raise WithdrawalTimeRestrictionError("Time not allo it")
         if amount > 0:
             self.balance -= amount
             self._log_transaction(f'Withdraw {amount}. New balance: {self.balance}')
@@ -50,3 +57,13 @@ class AccountNumberNotValid(Exception):
     def __init__(self, mensaje):
         self.mensaje = mensaje
         super().__init__(self.mensaje)
+
+class WithdrawalTimeRestrictionError(Exception):
+    def __init__(self, mensaje):
+        self.mensaje = mensaje
+        super().__init__(self.mensaje)
+
+
+#withdrawal = BankAccount()
+
+#withdrawal.withdraw(100)
