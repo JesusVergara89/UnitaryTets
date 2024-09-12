@@ -72,7 +72,3 @@ class WithdrawalDayRestrictionError(Exception):
         self.mensaje = mensaje
         super().__init__(self.mensaje)
 
-
-withdrawal = BankAccount()
-
-withdrawal.withdraw(100)
