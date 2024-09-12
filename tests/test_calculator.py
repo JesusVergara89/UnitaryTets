@@ -14,9 +14,10 @@ class CalculatorTest(unittest.TestCase):
 
     def test_division(self):
         assert division(10, 2) == 5
+    
 
     def test_division_by_zero(self):
-        with self.assertRaises(ZeroDivisionError):
+        with self.assertRaises(ValueError):
             division(10, 0)
 
 
