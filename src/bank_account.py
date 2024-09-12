@@ -17,20 +17,6 @@ class BankAccount:
                 f.write(f'{message}\n')
 
     def deposit(self, amount):
-        """
-        Deposita una cantidad en la cuenta y devuelve el saldo nuevo.
-
-        :param amount: Cantidad de dinero a depositar (debe ser positiva).
-
-        Ejemplos:
-        >>> account = BankAccount(100)
-        >>> account.deposit(50)
-        120
-        >>> account.deposit(-10)
-        150
-        >>> account.deposit(0)
-        150
-        """
         if amount > 0:
             self.balance += amount
             self._log_transaction(f'Deposited {amount}. New balance: {self.balance}')
